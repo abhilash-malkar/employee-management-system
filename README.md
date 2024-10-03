@@ -52,17 +52,21 @@ This project is a MERN stack Employee Management System built with React.js for 
 ## Key Components
 
 ### Back-end
-- Employee.js: Handles all employee-related API routes
-- Login.js: Handles user login
 - server.js: Main server file
+- Login.js: Handles user login
+- Employee.js: Handles all employee-related API routes
+
+
 
 ### Front-end
+- LandingPage.js: Landing page
+- Dashboard.js: Main dashboard
+- Header.js: Navigation component
 - EmployeeList.js: Displays all employees using DataTables
 - CreateEmployee.js: Form for creating a new employee
 - EmployeeEdit.js: Form for editing an existing employee
-- Header.js: Navigation component
-- LandingPage.js: Landing page
-- Dashboard.js: Main dashboard
+
+
 
 
 ## File Upload
