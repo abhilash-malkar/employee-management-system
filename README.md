@@ -1,6 +1,6 @@
 # Employee Management System
 
-This project is a full-stack Employee Management System built with React.js for the front-end and Node.js with Express for the back-end.
+This project is a MERN stack Employee Management System built with React.js for the front-end, Node.js with Express for the back-end, and MongoDB as the database.
 
 ## Features
 
