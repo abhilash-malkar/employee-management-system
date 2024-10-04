@@ -77,6 +77,28 @@ Router.post("/create", upload.single("f_Image"), async (req, res) => {
         const database = await connect();
         const collection = database.collection("t_Employee");
 
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(req.body.f_Email)) {
+            return res.status(400).json({ errors: { f_Email: "Invalid email format" } });
+        }
+
+        // Check for email duplicate
+        const existingEmployee = await collection.findOne({ f_Email: req.body.f_Email });
+        if (existingEmployee) {
+            return res.status(400).json({ errors: { f_Email: "Email already in use" } });
+        }
+
+        // Numeric validation for mobile
+        if (!/^\d+$/.test(req.body.f_Mobile)) {
+            return res.status(400).json({ errors: { f_Mobile: "Mobile number must contain only digits" } });
+        }
+
+        // File type validation
+        if (req.file && !['image/jpeg', 'image/png'].includes(req.file.mimetype)) {
+            return res.status(400).json({ errors: { f_Image: "Only JPG/PNG files are allowed" } });
+        }
+
         const lastEmployee = await collection.findOne({}, { sort: { f_Id: -1 } });
         const newId = lastEmployee ? (parseInt(lastEmployee.f_Id) + 1).toString() : "1";
 
@@ -99,7 +121,6 @@ Router.post("/create", upload.single("f_Image"), async (req, res) => {
         res.status(500).json({ message: "Error creating employee" });
     }
 });
-
 
 Router.delete("/delete/:id", async (req, res) => {
   try {
@@ -129,6 +150,27 @@ Router.delete("/delete/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting employee:", error);
     res.status(500).json({ message: "Error deleting employee" });
+  }
+});
+
+// Add this new route for checking email duplicates
+Router.get("/check-email", async (req, res) => {
+  try {
+    const email = req.query.email;
+
+    if (!email) {
+      return res.status(400).json({ message: "Email parameter is required" });
+    }
+
+    const database = await connect();
+    const collection = database.collection("t_Employee");
+
+    const existingEmployee = await collection.findOne({ f_Email: email });
+
+    res.json({ isDuplicate: !!existingEmployee });
+  } catch (error) {
+    console.error("Error checking email duplicate:", error);
+    res.status(500).json({ message: "Error checking email duplicate" });
   }
 });
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../../components/header/Header';
+import baseUrl from '../../../BaseURL';
 
 function EmployeeEdit() {
   const { id } = useParams();
@@ -17,6 +18,7 @@ function EmployeeEdit() {
   });
   const [currentImage, setCurrentImage] = useState('');
   const [imagePreview, setImagePreview] = useState('');
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     fetchEmployeeData();
@@ -24,7 +26,7 @@ function EmployeeEdit() {
 
   const fetchEmployeeData = async () => {
     try {
-      const response = await axios.get(`http://localhost:3009/employee/get/${id}`);
+      const response = await axios.get(`${baseUrl}/employee/get/${id}`);
       const employeeData = response.data;
       setFormData({
         f_Name: employeeData.f_Name,
@@ -35,13 +37,37 @@ function EmployeeEdit() {
         f_Course: employeeData.f_Course.split(', '),
       });
       setCurrentImage(employeeData.f_Image);
-      setImagePreview(`http://localhost:3009/media/${employeeData.f_Image}`);
+      setImagePreview(`${baseUrl}/media/${employeeData.f_Image}`);
     } catch (error) {
       console.error('Error fetching employee data:', error);
     }
   };
 
-  const handleChange = (e) => {
+  const validateForm = () => {
+    let newErrors = {};
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.f_Email)) {
+      newErrors.f_Email = 'Please enter a valid email address';
+    }
+
+    // Numeric validation for mobile
+    if (!/^\d+$/.test(formData.f_Mobile)) {
+      newErrors.f_Mobile = 'Mobile number must contain only digits';
+    }
+
+    // File type validation
+    if (formData.f_Image && !['image/jpeg', 'image/png'].includes(formData.f_Image.type)) {
+      newErrors.f_Image = 'Only JPG/PNG files are allowed';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+
+  const handleChange = async (e) => {
     const { name, value, type, checked, files } = e.target;
     if (type === 'checkbox') {
       let updatedCourses = [...formData.f_Course];
@@ -61,10 +87,15 @@ function EmployeeEdit() {
     } else {
       setFormData({ ...formData, [name]: value });
     }
+
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+
     const submitData = new FormData();
     for (const key in formData) {
       if (key === 'f_Course') {
@@ -79,7 +110,7 @@ function EmployeeEdit() {
     }
 
     try {
-      const response = await axios.put(`http://localhost:3009/employee/update/${id}`, submitData, {
+      const response = await axios.put(`${baseUrl}/employee/update/${id}`, submitData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -88,6 +119,9 @@ function EmployeeEdit() {
       navigate('/employee-list');
     } catch (error) {
       console.error('Error updating employee:', error);
+      if (error.response && error.response.data) {
+        setErrors(error.response.data.errors || {});
+      }
     }
   };
 
@@ -111,11 +145,29 @@ function EmployeeEdit() {
               </div>
               <div className="mb-3">
                 <label htmlFor="f_Email" className="form-label">Email</label>
-                <input type="email" className="form-control" id="f_Email" name="f_Email" value={formData.f_Email} onChange={handleChange} required />
+                <input 
+                  type="email" 
+                  className={`form-control ${errors.f_Email ? 'is-invalid' : ''}`} 
+                  id="f_Email" 
+                  name="f_Email" 
+                  value={formData.f_Email} 
+                  onChange={handleChange} 
+                  required 
+                />
+                {errors.f_Email && <div className="invalid-feedback">{errors.f_Email}</div>}
               </div>
               <div className="mb-3">
                 <label htmlFor="f_Mobile" className="form-label">Mobile No</label>
-                <input type="tel" className="form-control" id="f_Mobile" name="f_Mobile" value={formData.f_Mobile} onChange={handleChange} required />
+                <input 
+                  type="tel" 
+                  className={`form-control ${errors.f_Mobile ? 'is-invalid' : ''}`} 
+                  id="f_Mobile" 
+                  name="f_Mobile" 
+                  value={formData.f_Mobile} 
+                  onChange={handleChange} 
+                  required 
+                />
+                {errors.f_Mobile && <div className="invalid-feedback">{errors.f_Mobile}</div>}
               </div>
               <div className="mb-3">
                 <label htmlFor="f_Designation" className="form-label">Designation</label>
@@ -169,13 +221,14 @@ function EmployeeEdit() {
                   </button>
                   <input 
                     type="file" 
-                    className="form-control" 
+                    className={`form-control ${errors.f_Image ? 'is-invalid' : ''}`}
                     style={{display: 'none'}} 
                     id="f_Image" 
                     name="f_Image" 
                     onChange={handleChange} 
                     accept="image/*" 
                   />
+                  {errors.f_Image && <div className="invalid-feedback">{errors.f_Image}</div>}
                 </div>
               </div>
               <div className="mb-5 text-center">
