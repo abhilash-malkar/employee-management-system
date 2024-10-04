@@ -73,11 +73,6 @@ This project is a MERN stack Employee Management System built with React.js for 
 
 Employee profile pictures are uploaded and stored in the `/media` directory on the server.
 
-## Future Improvements
-
-- Add user roles and permissions
-- Add more detailed employee information
-- Improve error handling and user feedback
 
 ## ScreenShot
 ### Landing Page
@@ -102,4 +97,8 @@ Employee profile pictures are uploaded and stored in the `/media` directory on t
 ![LandingPage](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/landingPageWithLoggedIn.png?raw=true)
 
 
+## Future Improvements
 
+- Add user roles and permissions
+- Add more detailed employee information
+- Improve error handling and user feedback
