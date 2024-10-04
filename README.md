@@ -82,5 +82,5 @@ Employee profile pictures are uploaded and stored in the `/media` directory on t
 ## ScreenShot
 ### Landing Page
 
-![screenshot](screenshot/Screenshot 2024-10-04 at 2.16.12 AM.png)
+![screenshot](./screenshot/Screenshot 2024-10-04 at 2.16.12 AM.png)
 
