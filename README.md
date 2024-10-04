@@ -79,4 +79,9 @@ Employee profile pictures are uploaded and stored in the `/media` directory on t
 - Add more detailed employee information
 - Improve error handling and user feedback
 
+## ScreenShot
+### Landing Page
+
+![screenshot](./screenshot/Screenshot 2024-10-04 at 2.16.12 AM.png)
+![Screenshot 1](https://raw.githubusercontent.com/abhilash-malkar/employee-management-system/main/screenshot/Screenshot1.png)
 
