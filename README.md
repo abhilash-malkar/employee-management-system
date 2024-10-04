@@ -33,6 +33,12 @@ This project is a MERN stack Employee Management System built with React.js for 
 4. Start the back-end server
 5. Start the front-end development server
 
+## Demo Account
+```
+username: admin
+password: 123
+```
+
 ## API Endpoints
 
 - GET /employee/get - Fetch all employees
