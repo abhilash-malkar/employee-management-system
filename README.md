@@ -81,6 +81,25 @@ Employee profile pictures are uploaded and stored in the `/media` directory on t
 
 ## ScreenShot
 ### Landing Page
+![LandingPage](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/landingPage.png?raw=true)
 
-![LandingPage](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/Screenshot1.png?raw=true)
+### Login Page
+![loginPage](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/loginPage.png?raw=true)
+
+### Dashboard Page
+![Dashboard](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/dashboardPage.png?raw=true)
+
+### Employee List Page
+![EmployeeList](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/employeeListPage.png?raw=true)
+
+### Create Employee Page
+![CreateEmployee](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/createEmployeePage.png?raw=true)
+
+### Edit Employee Page
+![EditEmployee](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/editEmployeePage.png?raw=true)
+
+### Landing Page With Logged In
+![LandingPage](https://github.com/abhilash-malkar/employee-management-system/blob/main/screenshot/landingPageWithLoggedIn.png?raw=true)
+
+
 
